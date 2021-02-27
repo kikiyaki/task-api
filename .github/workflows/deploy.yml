@@ -1,0 +1,35 @@
+name: Deploy to production
+
+on:
+  release:
+    types: [published]
+
+jobs:
+  build:
+    runs-on: ubuntu-latest
+
+    steps:
+      - uses: actions/checkout@v1
+      - name: Docker compose up
+        run: docker-compose up --abort-on-container-exit
+      
+      - name: Prepare ssh key
+        run: |
+          sudo mkdir ~/.ssh
+          sudo chmod -R 0777 ~/.ssh
+          sudo printf -- "${{ secrets.SSH_KEY }}" >> ~/.ssh/task
+          sudo echo "${{ secrets.SSH_KEY_PUB }}" >> ~/.ssh/task.pub
+          sudo chmod 400 ~/.ssh/task.pub
+          sudo chmod 400 ~/.ssh/task 
+          sudo touch ~/.ssh/known_hosts
+          sudo chmod 0777 ~/.ssh/known_hosts
+          sudo ssh-keyscan 104.198.254.191 >> ~/.ssh/known_hosts
+        
+      - name: Send files
+        run: rsync --delete --recursive --omit-dir-times --exclude "storage/" -e "ssh -i ~/.ssh/task" application/ kirill60@104.198.254.191:~/task-api/application/
+
+      - name: Migrations
+        run: ssh -i ~/.ssh/task kirill60@104.198.254.191 'sudo docker exec php-fpm php artisan migrate'
+      
+      - name: Create links
+        run: ssh -i ~/.ssh/task kirill60@104.198.254.191 'sudo docker exec php-fpm php artisan storage:link'
