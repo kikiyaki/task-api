@@ -29,7 +29,7 @@ jobs:
         run: rsync --delete --recursive --omit-dir-times --exclude "storage/" -e "ssh -i ~/.ssh/task" application/ kirill60@104.198.254.191:~/task-api/application/
 
       - name: Migrations
-        run: ssh -i ~/.ssh/task kirill60@104.198.254.191 'sudo docker exec task-php-fpm php artisan migrate'
+        run: ssh -i ~/.ssh/task kirill60@104.198.254.191 'sudo docker exec tasks-php-fpm php artisan migrate'
       
       - name: Create links
-        run: ssh -i ~/.ssh/task kirill60@104.198.254.191 'sudo docker exec task-php-fpm php artisan storage:link'
+        run: ssh -i ~/.ssh/task kirill60@104.198.254.191 'sudo docker exec tasks-php-fpm php artisan storage:link'
