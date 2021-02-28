@@ -32,4 +32,4 @@ jobs:
         run: ssh -i ~/.ssh/task kirill60@104.198.254.191 'sudo docker exec tasks-php-fpm php artisan migrate --force'
       
       - name: Create links
-        run: ssh -i ~/.ssh/task kirill60@104.198.254.191 'sudo docker exec tasks-php-fpm php artisan storage:link --force'
+        run: ssh -i ~/.ssh/task kirill60@104.198.254.191 'sudo docker exec tasks-php-fpm php artisan storage:link'
