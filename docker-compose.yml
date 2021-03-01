@@ -1,31 +1,4 @@
 services:
-#  nginx:
-#    image: nginx:latest
-#    container_name: tasks-nginx
-#    ports:
-#      - "80:80"
-#      - "443:443"
-#    volumes:
-#      - ./container/nginx/core:/etc/nginx/conf.d
-#      - ./application:/application
-#      - ./container/nginx/logs:/var/log/nginx/
-#      - ./container/nginx/html:/usr/share/nginx/html/
-#    links:
-#      - php-fpm
-#
-#  pgsql:
-#    image: postgres:latest
-#    container_name: tasks-pgsql
-#    restart: always
-#    ports:
-#      - "5432:5432"
-#    environment:
-#      - POSTGRES_DB=tasks
-#      - POSTGRES_USER=tasks
-#      - POSTGRES_PASSWORD=tasks123
-#    volumes:
-#      - ./container/pgsql:/var/lib/postgresql
-
   php-fpm:
     build: ./container/php-fpm
     container_name: tasks-php-fpm
@@ -33,14 +6,3 @@ services:
     command: composer install
     volumes:
       - ./application:/application
-#    links:
-#      - pgsql
-
-#  adminer:
-#    image: adminer
-#    container_name: tasks-adminer
-#    restart: always
-#    ports:
-#      - 8085:8080
-#    links:
-#      - pgsql
