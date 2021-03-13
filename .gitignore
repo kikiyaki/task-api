@@ -1,1 +1,2 @@
 /container/nginx/logs/*
+/application/bootstrap/cache/*
