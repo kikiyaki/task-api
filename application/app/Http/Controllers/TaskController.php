@@ -10,7 +10,11 @@ class TaskController extends Controller
 {
     public function index()
     {
-        return Task::all();
+        $taskList = Task::where('user_id', Auth::id())
+            ->get()
+            ->toArray();
+
+        return response()->json($taskList);
     }
 
     public function create(Request $request)
