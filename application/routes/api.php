@@ -21,6 +21,9 @@ Route::middleware('auth:api')->get('/user', function (Request $request) {
 });
 Route::get('tasks', [TaskController::class, 'index'])
     ->middleware(NotAuthenticated::class);
-Route::post('tasks', [TaskController::class, 'create']);
-Route::put('tasks/{id}', [TaskController::class, 'update']);
-Route::delete('tasks/{id}', [TaskController::class, 'delete']);
+Route::post('tasks', [TaskController::class, 'create'])
+    ->middleware(NotAuthenticated::class);;
+Route::put('tasks/{id}', [TaskController::class, 'update'])
+    ->middleware(NotAuthenticated::class);;
+Route::delete('tasks/{id}', [TaskController::class, 'delete'])
+    ->middleware(NotAuthenticated::class);;
