@@ -1,6 +1,7 @@
 <?php
 
 use App\Http\Controllers\TaskController;
+use App\Http\Middleware\Api\NotAuthenticated;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Route;
 
@@ -18,7 +19,8 @@ use Illuminate\Support\Facades\Route;
 Route::middleware('auth:api')->get('/user', function (Request $request) {
     return $request->user();
 });
-Route::get('tasks', [TaskController::class, 'index']);
+Route::get('tasks', [TaskController::class, 'index'])
+    ->middleware(NotAuthenticated::class);
 Route::post('tasks', [TaskController::class, 'create']);
 Route::put('tasks/{id}', [TaskController::class, 'update']);
 Route::delete('tasks/{id}', [TaskController::class, 'delete']);
