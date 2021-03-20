@@ -4,6 +4,7 @@ namespace App\Http\Controllers;
 
 use App\Models\Task;
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\Auth;
 
 class TaskController extends Controller
 {
@@ -18,6 +19,7 @@ class TaskController extends Controller
         $newTask = new Task();
         $newTask->title = $params['title'];
         $newTask->ready = false;
+        $newTask->user_id = Auth::id();
         $newTask->save();
 
         return response(null, 201);
@@ -28,14 +30,20 @@ class TaskController extends Controller
         $params = $request->all();
 
         $task = Task::find($id);
+        if ($task->user_id !== Auth::id()) {
+            return response(null, 403);
+        }
         $task->update($params);
 
-        return $task;
+        return response(null, 200);
     }
 
     public function delete($id)
     {
         $task = Task::find($id);
+        if ($task->user_id !== Auth::id()) {
+            return response(null, 403);
+        }
         $task->delete();
 
         return response(null, 204);
