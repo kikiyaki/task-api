@@ -2,6 +2,7 @@
 
 use App\Http\Controllers\TaskController;
 use App\Http\Middleware\Api\NotAuthenticated;
+use App\Http\Middleware\Cors;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Route;
 
@@ -20,7 +21,8 @@ Route::middleware('auth:api')->get('/user', function (Request $request) {
     return $request->user();
 });
 Route::get('tasks', [TaskController::class, 'index'])
-    ->middleware(NotAuthenticated::class);
+    ->middleware(NotAuthenticated::class)
+    ->middleware(Cors::class);
 Route::post('tasks', [TaskController::class, 'create'])
     ->middleware(NotAuthenticated::class);;
 Route::put('tasks/{id}', [TaskController::class, 'update'])
