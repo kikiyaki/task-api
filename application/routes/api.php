@@ -21,8 +21,7 @@ Route::middleware('auth:api')->get('/user', function (Request $request) {
     return $request->user();
 });
 Route::get('tasks', [TaskController::class, 'index'])
-    ->middleware(NotAuthenticated::class)
-    ->middleware(Cors::class);
+    ->middleware(NotAuthenticated::class);
 Route::post('tasks', [TaskController::class, 'create'])
     ->middleware(NotAuthenticated::class);;
 Route::put('tasks/{id}', [TaskController::class, 'update'])
