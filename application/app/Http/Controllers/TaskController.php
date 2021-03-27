@@ -29,15 +29,14 @@ class TaskController extends Controller
         return response(null, 201);
     }
 
-    public function update(Request $request, $id)
+    public function update($id)
     {
-        $params = $request->all();
-
         $task = Task::find($id);
         if ($task->user_id !== Auth::id()) {
             return response(null, 403);
         }
-        $task->update($params);
+        $task->ready = !$task->ready;
+        $task->update();
 
         return response(null, 200);
     }
