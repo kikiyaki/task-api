@@ -2,7 +2,7 @@
 - Based on Laravel
 - Using CD with github actions with Docker
 - Working with small React.js application https://github.com/kikiyaki/task-web
-- Live demo http://104.198.254.191/
+- Live demo http://104.198.254.191
 
 ## Quick start
 - Run ```$ sudo docker-compose -f docker-compose.dev.yml up -d```
