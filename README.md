@@ -6,6 +6,7 @@
 
 ## Quick start
 - Run ```$ sudo docker-compose -f docker-compose.dev.yml up -d```
+- Install dependencies ```$ sudo docker exec tasks-php-fpm composer install```
 - Run migrations ```$ sudo docker exec tasks-php-fpm php artisan migrate```
 - Seed db ```sudo docker exec tasks-php-fpm php artisan db:seed --class=TasksTableSeeder```
 - Server is running on localhost/
