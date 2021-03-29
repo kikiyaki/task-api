@@ -41,17 +41,28 @@ class RegisteredUserController extends Controller
             ]
         );
         if ($validator->fails()) {
-            return response(null, 422);
+            $errors = $validator->errors()->all();
+            return response([
+                'error' => implode("\n", $errors)
+            ], 422);
         }
 
-        Auth::login($user = User::create([
+        // Logout
+        Auth::guard('web')->logout();
+        $request->session()->invalidate();
+
+        $user = User::create([
             'name' => $request->name,
             'email' => $request->email,
             'password' => Hash::make($request->password),
-        ]));
-
+        ]);
         event(new Registered($user));
 
-        return response(null, 200);
+        if (Auth::attempt($request->only('email', 'password'), true)) {
+            $request->session()->regenerate();
+            return response(null, 200);
+        }
+
+        return response(null, 401);
     }
 }

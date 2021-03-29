@@ -12,25 +12,22 @@ use App\Http\Middleware\Cors;
 use Illuminate\Support\Facades\Route;
 
 Route::get('/token', function() {
-    return [
-        'data' => csrf_token()
-    ];
-})->middleware(Cors::class);;
+    return ['data' => csrf_token()];
+})
+                ->middleware(Cors::class);;
 
 Route::get('/register', [RegisteredUserController::class, 'create'])
                 ->middleware('guest')
                 ->name('register');
 
-Route::post('/register', [RegisteredUserController::class, 'store'])
-                ->middleware('guest');
+Route::post('/register', [RegisteredUserController::class, 'store']);
 
 Route::get('/login', [AuthenticatedSessionController::class, 'create'])
                 ->middleware('guest')
                 ->name('login');
 
-Route::post('/login', [AuthenticatedSessionController::class, 'store'])
-                //->middleware('guest');
-;
+Route::post('/login', [AuthenticatedSessionController::class, 'store']);
+
 Route::get('/forgot-password', [PasswordResetLinkController::class, 'create'])
                 ->middleware('guest')
                 ->name('password.request');
