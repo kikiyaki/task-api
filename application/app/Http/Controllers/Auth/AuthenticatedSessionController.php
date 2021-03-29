@@ -31,6 +31,11 @@ class AuthenticatedSessionController extends Controller
      */
     public function store(Request $request)
     {
+        if (Auth::check()) {
+            Auth::guard('web')->logout();
+            $request->session()->invalidate();
+            $request->session()->regenerateToken();
+        }
         if (Auth::attempt($request->only('email', 'password'), true)) {
             $request->session()->regenerate();
 
